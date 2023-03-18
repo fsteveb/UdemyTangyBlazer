@@ -81,9 +81,9 @@
 </div>
 
 <h3 class="text-success">Product Summary</h3>
-@foreach (var prop in Products)
+@foreach (var prod in Products)
 {
-    <p>@prop.Name [@prop.Price] is @(prop.IsActive ? "Active" : "Not Active")</p>
+    <p>@prod.Name [@prod.Price] is @(prod.IsActive ? "Active" : "Not Active")</p>
 }
 
 @code {
