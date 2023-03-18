@@ -1,0 +1,45 @@
+﻿
+<div class="border p-2 mt-2" style="background-color: azure;">
+    <div class="card bg-light mb-3" style="width: 28rem;" @onclick="@(e => SelectionUpdated(e, Product.Name))">
+        <div class="card-body">
+            <h5 class="card-title">Product - @Product.Id</h5>
+            <div class="card-text">
+                <input type="checkbox" @onchange="FavoriteUpdated" /> Add to Favorites<br />
+                <p>Name - @Product.Name</p>
+                <p>Show Properties: <input type="checkbox" @bind="Product.IsActive" /></p>
+
+                @if (Product.IsActive)
+                {
+                    @foreach (var prop in Product.ProductProperties)
+                    {
+                        <p>@prop.Key - @prop.Value</p>
+                    }
+                }
+                <br />
+                <_EditDeleteButton IsActive="@Product.IsActive">
+                </_EditDeleteButton>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Demo_Product Product { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnFavoriteUpdated { get; set; }
+
+    private async Task FavoriteUpdated(ChangeEventArgs e)
+    {
+        await OnFavoriteUpdated.InvokeAsync((bool)e.Value);
+    }
+
+    [Parameter]
+    public EventCallback<string> OnSelectionUpdated { get; set; }
+
+    private async Task SelectionUpdated(MouseEventArgs e, string product)
+    {
+        await OnSelectionUpdated.InvokeAsync(product);
+    }
+}

@@ -1,49 +1,19 @@
 ﻿@page "/learnBlazer/demoproduct"
 
 <h2 class="text-primary">Demo Product</h2>
+<p>Favorites total: @selectedFavoriteCount</p>
+<p>Last Selected Product: @lastSelectedProduct</p>
 <div class="card-group">
     @foreach (var prod in Products)
     {
-        <div class="border p-2 mt-2" style="background-color: azure;">
-        <div class="card bg-light mb-3" style="width: 28rem;">
-            <div class="card-body">
-                <h5 class="card-title">Product - @prod.Id</h5>
-                <div class="card-text">
-                    <p>Name - @prod.Name</p>
-                    <p>Show Properties: <input type="checkbox" @bind="prod.IsActive" /></p>
-
-                        @if (prod.IsActive)
-                    {
-                        @foreach (var prop in prod.ProductProperties)
-                        {
-                            <p>@prop.Key - @prop.Value</p>
-                        }
-                    }
-                    <button class="btn-danger" style="width: 100px;">Delete</button>
-                    <button class="btn-success" style="width: 100px;">Edit</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        <_ProductCard Product="prod" OnFavoriteUpdated="FavoriteCountUpdate" OnSelectionUpdated="LastSelectedUpdate">
+        </_ProductCard>
     }
 </div>
 
 @code {
-    private string selectedProp = "";
-
-    Demo_Product Product = new()
-        {
-            Id = 1,
-            Name = "Rose Candle",
-            IsActive = true,
-            Price = 10.99,
-            ProductProperties = new List<Demo_ProductProp>()
-            {
-                new Demo_ProductProp() { Id = 1, Key = "Color", Value = "Black"},
-                new Demo_ProductProp() { Id = 2, Key = "Flavor", Value = "Rose Jasmine"},
-                new Demo_ProductProp() { Id = 3, Key = "Size", Value = "20oz"},
-            }
-        };
+    private int selectedFavoriteCount { get; set; } = 0;
+    private string lastSelectedProduct { get; set; } = "";
 
     List<Demo_Product> Products = new();
 
@@ -76,5 +46,22 @@
                 new Demo_ProductProp { Id = 3, Key = "Color", Value = "White"}
             }
             });
+    }
+
+    protected void FavoriteCountUpdate(bool isSelected)
+    {
+        if (isSelected)
+        {
+            selectedFavoriteCount++;
+        }
+        else
+        {
+            selectedFavoriteCount--;
+        }
+    }
+
+    protected void LastSelectedUpdate(string productName)
+    {
+        lastSelectedProduct = productName;
     }
 }
