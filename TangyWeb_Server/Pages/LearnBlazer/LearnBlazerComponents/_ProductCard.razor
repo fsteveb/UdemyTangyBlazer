@@ -6,6 +6,7 @@
             <div class="card-text">
                 <input type="checkbox" @onchange="FavoriteUpdated" /> Add to Favorites<br />
                 <p>Name - @Product.Name</p>
+                <p>RF from parent - @FirstFragment @SecondFragment</p>
                 <p>Show Properties: <input type="checkbox" @bind="Product.IsActive" /></p>
 
                 @if (Product.IsActive)
@@ -30,13 +31,19 @@
     [Parameter]
     public EventCallback<bool> OnFavoriteUpdated { get; set; }
 
+    [Parameter]
+    public EventCallback<string> OnSelectionUpdated { get; set; }
+
+    [Parameter]
+    public RenderFragment FirstFragment { get; set; }
+
+    [Parameter]
+    public RenderFragment SecondFragment { get; set; }
+
     private async Task FavoriteUpdated(ChangeEventArgs e)
     {
         await OnFavoriteUpdated.InvokeAsync((bool)e.Value);
     }
-
-    [Parameter]
-    public EventCallback<string> OnSelectionUpdated { get; set; }
 
     private async Task SelectionUpdated(MouseEventArgs e, string product)
     {
