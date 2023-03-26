@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,21 @@ namespace Tangy_Business.Repository
 
         public async Task<ProductDTO> Create(ProductDTO objDTO)
         {
-            Product Product = _mapper.Map<ProductDTO, Product>(objDTO);
+            try
+            {
+                Product Product = _mapper.Map<ProductDTO, Product>(objDTO);
 
-            var addedObj = _db.Products.Add(Product);
-            await _db.SaveChangesAsync();
+                var addedObj = _db.Products.Add(Product);
+                await _db.SaveChangesAsync();
 
-            return _mapper.Map<Product, ProductDTO>(addedObj.Entity);
+                return _mapper.Map<Product, ProductDTO>(addedObj.Entity);
+            }
+            catch (Exception ex)
+            {
+                // Log errors
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         public async Task<int> Delete(int id)

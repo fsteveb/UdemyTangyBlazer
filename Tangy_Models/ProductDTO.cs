@@ -22,7 +22,7 @@ namespace Tangy_Models
         
         public bool CustomerFavorite { get; set; }
         
-        public string Color { get; set; }
+        public string? Color { get; set; }
         
         public string ImageUrl { get; set; }
 

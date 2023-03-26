@@ -16,7 +16,7 @@ namespace Tangy_DataAccess
         public string Description { get; set; }
         public bool ShopFavorite { get; set; }
         public bool CustomerFavorite { get; set; }
-        public string Color { get; set; }
+        public string? Color { get; set; }
         public string ImageUrl { get; set; }
 
         public int CategoryId { get; set; }
