@@ -7,12 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\product\167abf27-dcf2-4354-9954-9300bbcc1e52.jpg" />
+    <Content Remove="wwwroot\images\product\395eac0e-ff96-439e-91c8-1b779f94270e.jpg" />
+    <Content Remove="wwwroot\images\product\6ddd0896-b51b-4c7a-b70c-11d02e3eded3.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.15" />
+    <PackageReference Include="Syncfusion.Blazor.RichTextEditor" Version="21.1.35" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="21.1.35" />
   </ItemGroup>
 
   <ItemGroup>
