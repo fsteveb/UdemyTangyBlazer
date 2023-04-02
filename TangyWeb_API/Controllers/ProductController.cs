@@ -32,12 +32,12 @@ namespace TangyWeb_API.Controllers
                 });
             }
 
-            var product = _productRepository.Get(productId.Value);
-            if (productId == null)
+            var product = await _productRepository.Get(productId.Value);
+            if (product == null)
             {
                 return BadRequest(new ErrorModelDTO()
                 {
-                    ErrorMessage = "Invalid Id",
+                    ErrorMessage = "Product not found",
                     StatusCode = StatusCodes.Status400BadRequest
                 });
             }

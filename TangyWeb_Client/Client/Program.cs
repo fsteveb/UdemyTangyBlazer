@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TangyWeb_Client;
+using TangyWeb_Client.Service;
+using TangyWeb_Client.Service.IService;
 
 namespace TangyWeb_Client
 {
@@ -12,7 +14,8 @@ namespace TangyWeb_Client
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseAPIUrl")) });
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             await builder.Build().RunAsync();
         }

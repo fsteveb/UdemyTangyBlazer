@@ -18,6 +18,11 @@ namespace TangyWeb_API
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddCors(o => o.AddPolicy("Tangy", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }
+            ));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,6 +39,7 @@ namespace TangyWeb_API
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("Tangy");
 
             app.UseRouting();
             app.UseAuthorization();
