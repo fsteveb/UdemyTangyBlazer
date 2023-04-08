@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TangyWeb_Client;
@@ -16,6 +17,8 @@ namespace TangyWeb_Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseAPIUrl")) });
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddBlazoredLocalStorage();
 
             await builder.Build().RunAsync();
         }
