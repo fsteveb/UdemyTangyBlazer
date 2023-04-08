@@ -4,28 +4,27 @@ using TangyWeb_Client.Service.IService;
 
 namespace TangyWeb_Client.Service
 {
-    public class ProductService : IProductService
+    public class OrderService : IOrderService
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private string BaseServerUrl;
 
-        public ProductService(HttpClient httpClient, IConfiguration configuration)
+        public OrderService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _configuration = configuration;
             BaseServerUrl = _configuration.GetSection("BaseServerUrl").Value;
         }
 
-        public async Task<ProductDTO> Get(int productId)
+        public async Task<OrderDTO> Get(int orderHeaderID)
         {
-            var response = await _httpClient.GetAsync($"/api/product/productID?productID={productId}");
+            var response = await _httpClient.GetAsync($"/api/order/orderHeaderID?orderHeaderID={orderHeaderID}");
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                var product = JsonConvert.DeserializeObject<ProductDTO>(content);
-                product.ImageUrl = BaseServerUrl + product.ImageUrl;
-                return product;
+                var order = JsonConvert.DeserializeObject<OrderDTO>(content);
+                return order;
             }
             else
             {
@@ -34,21 +33,18 @@ namespace TangyWeb_Client.Service
             }
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetAll()
+        public async Task<IEnumerable<OrderDTO>> GetAll(string? userId = null)
         {
-            var response = await _httpClient.GetAsync("/api/product");
+            var response = await _httpClient.GetAsync("/api/order");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var products = JsonConvert.DeserializeObject<IEnumerable<ProductDTO>>(content);
-                foreach (var product in products)
-                {
-                    product.ImageUrl = BaseServerUrl + product.ImageUrl;
-                }
-                return products;
+                var orders = JsonConvert.DeserializeObject<IEnumerable<OrderDTO>>(content);
+
+                return orders;
             }
 
-            return new List<ProductDTO>();
+            return new List<OrderDTO>();
         }
     }
 }
