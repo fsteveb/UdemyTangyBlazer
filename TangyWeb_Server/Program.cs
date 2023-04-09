@@ -6,6 +6,7 @@ using TangyWeb_Server.Data;
 using TangyWeb_Server.Service;
 using TangyWeb_Server.Service.IService;
 using Syncfusion.Blazor;
+using Microsoft.AspNetCore.Identity;
 
 namespace TangyWeb_Server
 {
@@ -24,10 +25,14 @@ namespace TangyWeb_Server
             builder.Services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
-            
+
+            builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProviders().AddDefaultUI()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
+            builder.Services.AddScoped<IDbInitializer, DbInitializer>();
             builder.Services.AddScoped<IFileUpload, FileUpload>();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -55,8 +60,16 @@ namespace TangyWeb_Server
 
             app.UseRouting();
 
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+            //    dbInitializer.Initialize();
+            //}
+
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.Run();
         }
