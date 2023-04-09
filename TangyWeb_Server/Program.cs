@@ -60,11 +60,11 @@ namespace TangyWeb_Server
 
             app.UseRouting();
 
-            //using (var scope = app.Services.CreateScope())
-            //{
-            //    var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
-            //    dbInitializer.Initialize();
-            //}
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+                dbInitializer.Initialize();
+            }
 
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
